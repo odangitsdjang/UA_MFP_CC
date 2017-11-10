@@ -1,0 +1,71 @@
+/* css reset */
+* {
+  all: unset;
+}
+
+base,
+basefont,
+datalist,
+head,
+meta,
+script,
+style,
+title,
+noembed,
+param,
+template {
+  display: none;
+}
+
+.mfp-box {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  /* the beginning of this div is 50% from top and 50% from left  */
+  top: 50%;
+  left: 50%;
+  /* move the div up and left 50%, making the div midpoint to be in the middle of the screen */
+  transform: translate(-50%, -50%);
+  width: 50%;
+  height: 75%;
+  border: 1px solid #ccc;
+  background-color: #f3f3f3;
+}
+
+.dates {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+.calories {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.content {
+  display: flex;
+
+  /* use up the remaining space on the bottom */
+  flex-grow: 1
+}
+
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+
+  padding: 10px;
+  border-right: 1px solid black;
+}
+
+h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.foods {
+  padding: 10px;
+}
