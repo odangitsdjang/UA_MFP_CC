@@ -36,6 +36,7 @@ template {
   display: flex;
   justify-content: space-around;
   padding: 10px;
+  border-bottom: 1px solid rgb(125,125,125)
 }
 
 .calories {
@@ -44,6 +45,7 @@ template {
   justify-content: center;
   align-items: center;
   padding: 10px;
+   border-bottom: 1px solid rgb(125, 125, 125)
 }
 
 .content {
@@ -59,13 +61,23 @@ template {
   flex-direction: column;
 
   padding: 10px;
-  border-right: 1px solid black;
+  border-right: 1px solid rgb(125, 125, 125)
 }
 
 h2 {
   font-size: 1.5em;
   font-weight: bold;
 }
+
+h3 {
+  font-size: 1.2em;
+}
+
 .foods {
   padding: 10px;
+}
+
+.flex-column { 
+  display: flex;
+  flex-direction: column;
 }
