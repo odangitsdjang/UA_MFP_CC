@@ -1,4 +1,4 @@
-/* css reset */
+/* css semi-reset */
 * {
   all: unset;
 }
@@ -28,6 +28,7 @@ template {
   transform: translate(-50%, -50%);
   width: 50%;
   height: 75%;
+  border-radius: 5px;
   border: 1px solid #ccc;
   background-color: #f3f3f3;
 }
@@ -39,13 +40,28 @@ template {
   border-bottom: 1px solid rgb(125,125,125)
 }
 
+/* Since I have 5 children, the third child from the front and end is the middle
+ * And I will give special css rules to it/
+ */
+.dates div:nth-child(3):nth-last-child(3) {
+  color: rgb(0, 110, 196);
+}
+
 .calories {
+  padding: 10px;
+  border-bottom: 1px solid rgb(125, 125, 125)
+}
+.middle {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 10px;
-   border-bottom: 1px solid rgb(125, 125, 125)
+  margin: 0 auto;
+}
+
+.right {
+  padding-right: 10px;
+  float: right;
 }
 
 .content {
@@ -64,6 +80,11 @@ template {
   border-right: 1px solid rgb(125, 125, 125)
 }
 
+h1 {
+  font-size: 1.8em;
+  font-weight: bold;
+}
+
 h2 {
   font-size: 1.5em;
   font-weight: bold;
@@ -80,4 +101,84 @@ h3 {
 .flex-column { 
   display: flex;
   flex-direction: column;
+  text-align: center;
+}
+
+.material-icons {
+  font-size: 30px;
+  transition: all .1s ease-in-out;
+}
+
+.material-icons:hover {
+  transform: scale(1.3);
+  cursor: pointer;
+}
+
+.add {
+  font-size: 40px;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+}
+
+.food-modal-form {
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+  height: 60vh;
+}
+
+.food-inputs {
+  display: flex;
+  flex-direction: column;
+}
+
+.food-inputs > input {
+   border: 1px solid #ccc;
+   padding: 5px;
+   border-radius: 5px;
+   margin: 0 auto;
+   margin-top: 0.5em;
+}
+
+
+.Select {
+  padding-top: 0.5em;
+  width: 80%;
+  margin: 0 auto;
+}
+.Select-clear-zone {
+  display: none;
+}
+
+input[type=submit] {
+  margin-top: 3em;
+  border: 2px solid #ccc;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  transition: all .1s ease-in-out;
+}
+
+input[type=submit]:hover {
+  cursor: pointer;
+  color: white;
+  background-color: rgb(0, 110, 196);
+}
+
+.food-modal-title {
+  margin: 0 auto;
+  padding: 1.5em;
+}
+
+ul {
+  color: red;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.green {
+  color: green;
 }

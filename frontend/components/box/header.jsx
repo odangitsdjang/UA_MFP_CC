@@ -1,7 +1,9 @@
+import { connect } from 'react-redux';
+import { changeDate } from '../../actions/date_actions';
 import React, { Component } from 'react';
 const ONE_DAY_OFFSET = (24 * 60 * 60 * 1000);
 
-export default class Header extends Component {
+class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,21 +18,24 @@ export default class Header extends Component {
   }
 
   incrementDate() {
-    this.setState({
+    const state = {
       yesterday: this.state.today,
       today: this.state.tomorrow,
       tomorrow: new Date(this.state.tomorrow.getTime() + ONE_DAY_OFFSET)
-    });
-    console.log(this);
+    };
+    this.props.changeDate(`${state.today.getFullYear()}-${state.today.getMonth() + 1}-${state.today.getDate()}`);
+    this.setState(state);
   }
 
   decrementDate() {
-    this.setState({
-      tomorrow: this.state.today, 
+    const state = {
+      tomorrow: this.state.today,
       today: this.state.yesterday,
       yesterday: new Date(this.state.yesterday.getTime() - ONE_DAY_OFFSET)
-    });
-    console.log(this);
+    };
+    this.props.changeDate(`${state.today.getFullYear()}-${state.today.getMonth() + 1}-${state.today.getDate()}`);
+    this.setState(state);
+    
   }
 
   getDate() {
@@ -41,14 +46,15 @@ export default class Header extends Component {
   }
 
   displayDate(date) {
-    // offset by one because month 1 - 12 instead of 0 - 11 
-    const month = date.getUTCMonth() + 1;  
-    const day = date.getUTCDate();
-    const daysFrom = (this.state.current.getTime() - date.getTime()) / ONE_DAY_OFFSET; // this probably not right
+    // Maybe in production use getUTCMonth(), getUTCDate()? 
+    // Offset by one because month 1 - 12 instead of 0 - 11 
+    const month = date.getMonth() + 1;  
+    const day = date.getDate();
+    const daysFrom = (this.state.current.getTime() - date.getTime()) / ONE_DAY_OFFSET; 
     return (
       <div className="flex-column">
         <h2>{month}/{day}</h2>
-        <h3>{this.dateFromToday(daysFrom)} </h3>
+        <h3>{this.dateFromToday(Math.round(daysFrom))} </h3>
       </div>
     );
   }
@@ -63,7 +69,7 @@ export default class Header extends Component {
     } else if (dayDifference > 0) {
       return `${dayDifference} days ago`;
     } else {
-      
+      // Display a positive value not a negative value
       return `${dayDifference * -1} days from today`;
     }
   }
@@ -71,12 +77,21 @@ export default class Header extends Component {
   render() {
     return (
       <div className="dates">
-        <i onClick={() => this.decrementDate() } className="material-icons">keyboard_arrow_left</i>
+        <i onClick={() => this.decrementDate() } className="material-icons center">keyboard_arrow_left</i>
         <div>{ this.displayDate(this.state.yesterday) }</div>
         <div>{ this.displayDate(this.state.today) }</div>
         <div>{ this.displayDate(this.state.tomorrow) }</div>
-        <i onClick={() => this.incrementDate()} className="material-icons">keyboard_arrow_right</i>
+        <i onClick={() => this.incrementDate()} className="material-icons center">keyboard_arrow_right</i>
       </div>
       );
-    }
   }
+}
+
+const mapDispatchToProps = dispatch => ({
+  changeDate: (date) => dispatch(changeDate(date))
+});
+
+export default connect(
+  undefined,
+  mapDispatchToProps
+)(Header);
