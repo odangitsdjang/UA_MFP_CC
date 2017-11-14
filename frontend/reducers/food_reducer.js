@@ -1,4 +1,4 @@
-import { ADD_FOOD } from '../actions/food_actions';
+import { ADD_FOOD, REMOVE_FOOD } from '../actions/food_actions';
 // The below should probably be set to null when backend is set up.
 const defaultFoods = {};
 
@@ -24,6 +24,15 @@ const FoodsReducer = (state = defaultFoods, action) => {
         newFoods[action.food.date].push(action.food);
       }
       return newFoods;
+    case REMOVE_FOOD: 
+      const foods = Object.assign({}, state); 
+      foods[action.food.date].forEach((food, i) =>  {
+        // delete 
+        if (food == action.food) {
+          foods[action.food.date].splice(i, 1);
+        }
+      });
+      return foods;
     default:
       return state;
   }

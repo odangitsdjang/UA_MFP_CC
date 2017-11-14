@@ -24097,7 +24097,7 @@ var Calories = function (_Component) {
     key: 'calculateCalories',
     value: function calculateCalories() {
       var currentDayFoods = this.props.foods[this.props.currentDate];
-      if (currentDayFoods) return currentDayFoods.map(function (obj) {
+      if (currentDayFoods && currentDayFoods.length) return currentDayFoods.map(function (obj) {
         return obj.calories;
       }).reduce(function (accumulator, value) {
         return accumulator + value;
@@ -25790,6 +25790,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _reactRedux = __webpack_require__(23);
 
+var _food_actions = __webpack_require__(32);
+
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
@@ -25824,42 +25826,73 @@ var Content = function (_Component) {
   _createClass(Content, [{
     key: 'selectMeal',
     value: function selectMeal(meal) {
+      var _this2 = this;
+
       var currentDayFoods = this.props.foods[this.props.currentDate];
+      var selected = [];
       if (currentDayFoods) {
         currentDayFoods.forEach(function (food) {
           if (food.meal === meal) {
-            console.log(food.foodName + ': ' + food.calories + ' calories');
-            return food.foodName + ': ' + food.calories + ' calories';
+            selected.push(food);
           }
         });
       }
+      if (selected.length) {
+        return selected.map(function (food, i) {
+          return _react2.default.createElement(
+            'div',
+            { key: i },
+            _react2.default.createElement(
+              'div',
+              { className: 'right' },
+              _react2.default.createElement(
+                'i',
+                { onClick: _this2.removeFood(food), className: 'material-icons' },
+                'remove_circle'
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'middle' },
+              _react2.default.createElement(
+                'h2',
+                null,
+                ' ',
+                food.foodName + ', ' + food.calories + ' calories',
+                '  '
+              )
+            )
+          );
+        });
+      } else {
+        return _react2.default.createElement(
+          'h2',
+          { className: 'middle' },
+          'N/A'
+        );
+      }
+    }
+  }, {
+    key: 'removeFood',
+    value: function removeFood(food) {
+      var _this3 = this;
+
+      return function (e) {
+        _this3.props.removeFood(food);
+      };
     }
   }, {
     key: 'renderFoodsInOrder',
     value: function renderFoodsInOrder() {
+      var wtf = this.selectMeal("breakfast");
+      console.log(wtf);
       return _react2.default.createElement(
         'div',
         { className: 'foods' },
-        _react2.default.createElement(
-          'h2',
-          null,
-          console.log(this.selectMeal("breakfast"))
-        ),
-        _react2.default.createElement(
-          'h2',
-          null,
-          this.selectMeal("lunch") || ""
-        ),
-        _react2.default.createElement(
-          'h2',
-          null,
-          this.selectMeal("dinner") || ""
-        ),
-        _react2.default.createElement(
-          'h2',
-          null,
-          this.selectMeal("snacks") || ""
-        )
+        this.selectMeal("breakfast") || "N/A",
+        this.selectMeal("lunch") || "N/A",
+        this.selectMeal("dinner") || "N/A",
+        this.selectMeal("snacks") || "N/A"
       );
     }
   }, {
@@ -25908,7 +25941,15 @@ var mapStateToProps = function mapStateToProps(state) {
   };
 };
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(Content);
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    removeFood: function removeFood(food) {
+      return dispatch((0, _food_actions.removeFood)(food));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Content);
 
 /***/ }),
 /* 101 */
@@ -26085,6 +26126,15 @@ var FoodsReducer = function FoodsReducer() {
         newFoods[action.food.date].push(action.food);
       }
       return newFoods;
+    case _food_actions.REMOVE_FOOD:
+      var foods = Object.assign({}, state);
+      foods[action.food.date].forEach(function (food, i) {
+        // delete 
+        if (food == action.food) {
+          foods[action.food.date].splice(i, 1);
+        }
+      });
+      return foods;
     default:
       return state;
   }

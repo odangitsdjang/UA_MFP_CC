@@ -1,6 +1,7 @@
 /* css semi-reset */
 * {
   all: unset;
+  font-family: "Roboto Condensed", sans-serif;
 }
 
 base,
@@ -75,7 +76,7 @@ template {
 .left-column {
   display: flex;
   flex-direction: column;
-
+  align-items: center;
   padding: 10px;
   border-right: 1px solid rgb(125, 125, 125)
 }
@@ -95,7 +96,10 @@ h3 {
 }
 
 .foods {
+  display: flex;
+  flex-direction: column;
   padding: 10px;
+  flex-grow: 1;
 }
 
 .flex-column { 

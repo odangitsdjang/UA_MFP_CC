@@ -117,7 +117,7 @@ class Calories extends Component {
   // This method assumes that we're only getting foods from the current user fed into the store
   calculateCalories() {
     const currentDayFoods = this.props.foods[this.props.currentDate];
-    if (currentDayFoods) 
+    if (currentDayFoods && currentDayFoods.length) 
       return currentDayFoods.map(obj => obj.calories).reduce((accumulator, value) => accumulator + value);
   }
 
